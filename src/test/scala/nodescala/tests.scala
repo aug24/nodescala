@@ -15,6 +15,116 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class NodeScalaSuite extends FunSuite {
 
+  /**
+   * Additional tests based on first response to submission
+   */
+  
+test("A Future.all should be completed with all the results of successful futures List(1, 2, 3, 4, 5).map(x => Future { x })") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 4
+
+test("A Future should be completed with any of the results") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 4
+
+test("A Future should fail with one of the exceptions when calling any") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 4
+
+test("A Future should complete after 3s when using a delay of 1s") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 2
+
+test("A Future should not complete after 1s when using a delay of 3s") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 2
+
+test("A Future should run until cancelled when using Future.run") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 4
+
+test("Future.now should return the result when completed") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 2
+
+test("Future.now should throw a NoSuchElementException when not completed") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 2
+
+test("Future.continueWith should contain the continued value") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 2
+
+test("Future.continueWith should handle exceptions thrown by the user specified continuation function") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 2
+
+test("Future.continue should contain the continued value") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 2
+
+test("Future.continue should handle exceptions thrown by the user specified continuation function") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 2
+
+test("Server should serve requests properly by using the exchange object") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 12
+
+test("Server should cancel a long-running or infinite response") {
+    assert(false)
+  }
+// [Observed Error] an implementation is missing
+//   [exception was thrown] detailed error message in debug output section below
+// [Lost Points] 12
+
+
+
+/**
+ * Original provided tests
+ */
+  
+  
+  
   test("A Future should always be completed") {
     val always = Future.always(517)
 
