@@ -41,14 +41,18 @@ test("A Future should fail with one of the exceptions when calling any") {
 // [Lost Points] 4
 
 test("A Future should complete after 3s when using a delay of 1s") {
-    assert(false)
+  val f = Future.delay(1 second)
+  Thread.sleep(3000)
+  assert(f.isCompleted)
   }
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
 // [Lost Points] 2
 
 test("A Future should not complete after 1s when using a delay of 3s") {
-    assert(false)
+  val f = Future.delay(3 second)
+  Thread.sleep(1000)
+  assert(! f.isCompleted)
   }
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
