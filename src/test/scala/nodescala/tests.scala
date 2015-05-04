@@ -11,6 +11,7 @@ import org.scalatest._
 import NodeScala._
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
+import java.util.NoSuchElementException
 
 @RunWith(classOf[JUnitRunner])
 class NodeScalaSuite extends FunSuite {
@@ -20,21 +21,28 @@ class NodeScalaSuite extends FunSuite {
    */
   
 test("A Future.all should be completed with all the results of successful futures List(1, 2, 3, 4, 5).map(x => Future { x })") {
-    assert(false)
-  }
+  val fs = List(1, 2, 3, 4, 5).map(x => Future.always(x))
+  val fs2 = Future.all(fs)
+  assert(fs2.isCompleted)
+  assert(fs2.now == List(1,2,3,4,5) )
+}
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
 // [Lost Points] 4
 
 test("A Future should be completed with any of the results") {
-    assert(false)
+    val fs = List[Future[Int]](Future.always(1), Future.always(2))
+    assert(Future.any(fs).now==1)
   }
+
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
 // [Lost Points] 4
 
 test("A Future should fail with one of the exceptions when calling any") {
-    assert(false)
+  val f = Future.always(2) continueWith(_ => throw new NoSuchElementException)
+    val fs = List[Future[Int]](f, Future.always(2))
+    assert(Future.any(fs).now==2)
   }
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
@@ -66,29 +74,42 @@ test("A Future should run until cancelled when using Future.run") {
 // [Lost Points] 4
 
 test("Future.now should return the result when completed") {
-    assert(false)
+    val f = Future.always(5)
+    assert(f.isCompleted)
+    assert(f.now == 5)
   }
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
 // [Lost Points] 2
 
 test("Future.now should throw a NoSuchElementException when not completed") {
-    assert(false)
+    val f = Future.never
+    assert(!f.isCompleted)
+    try {
+      f.now
+      assert(false)
+    } catch {
+      case e: NoSuchElementException => ()
+      case e: Exception => fail()
+    }
   }
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
 // [Lost Points] 2
 
 test("Future.continueWith should contain the continued value") {
-    assert(false)
-  }
+  val f = Future.always(1)
+  val result = f.continueWith(x => Future.always(x.now * 2).now)
+  val value = result.now
+  assert(value==2)
+}
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
 // [Lost Points] 2
 
 test("Future.continueWith should handle exceptions thrown by the user specified continuation function") {
-    assert(false)
-  }
+  Future {1} continueWith(_ => throw new NoSuchElementException)
+}
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
 // [Lost Points] 2
@@ -121,6 +142,10 @@ test("Server should cancel a long-running or infinite response") {
 //   [exception was thrown] detailed error message in debug output section below
 // [Lost Points] 12
 
+  test("A Future.always should always be completed") {
+    val always = Future.always(517)
+    assert(always.isCompleted)
+  }
 
 
 /**
@@ -131,7 +156,6 @@ test("Server should cancel a long-running or infinite response") {
   
   test("A Future should always be completed") {
     val always = Future.always(517)
-
     assert(Await.result(always, 0 nanos) == 517)
   }
   test("A Future should never be completed") {
