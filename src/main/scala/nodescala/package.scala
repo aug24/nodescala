@@ -17,7 +17,11 @@ package object nodescala {
 
     /** Returns a future that is always completed with `value`.
      */
-    def always[T](value: T): Future[T] = Promise[T].success(value).future
+    def always[T](value: T): Future[T] = {
+      val p = Promise[T]
+      p.complete(Try(value))
+      p.future
+    }
     
     /** Returns a future that is never completed.
      *
@@ -134,7 +138,8 @@ package object nodescala {
       f onComplete {
         case Success(_) => 
           try {
-            p.success(cont(f.value.get))
+            val nextVal = Try(cont(f.value.get))
+            p.complete(nextVal)
           } catch {
             case e: Exception => p.failure(e)
           }

@@ -73,14 +73,13 @@ test("A Future should not complete after 1s when using a delay of 3s") {
 // [Lost Points] 2
 
 test("A Future should run until cancelled when using Future.run") {
-  val p = Promise[Unit]()
-  val f = p.future
-  val ct = Future.run()(_ => {Thread.sleep(1000); p.completeWith(Future.never).future }) 
+  var p = 0
+  val ct = Future.run()(ct => Future { { while(ct.nonCancelled) {Thread.sleep(1000)}; p=1} }) 
   Thread.sleep(50)
-  assert(!f.isCompleted)
+  assert(p==0)
   ct.unsubscribe()
-  Thread.sleep(50)
-  assert(!f.isCompleted)
+  Thread.sleep(1050)
+  assert(p==1)
   }
 // [Observed Error] an implementation is missing
 //   [exception was thrown] detailed error message in debug output section below
